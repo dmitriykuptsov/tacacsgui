@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>TACACS+ configuration and monitoring utility</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  </head>
+  <body>
+    <div class="header">
+      <div class="link"><a href="/tac_plus/configurations/">Configurations</a></div>
+      <div class="link"><a href="/tac_plus/users/">Users</a></div>
+      <div class="link"><a href="/tac_plus/groups/">Groups</a></div>
+      <div class="link"><a href="/tac_plus/commands/">Commands</a></div>
+      <div class="link"><a href="/tac_plus/system/">System</a></div>
+      <div class="link"><a href="/statistics/">Statistics</a></div>
+      <div class="link"><a href="/auth/logout/">Logout</a></div>
+    </div>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <a href="/tac_plus/add_group/" class="btn btn-primary form-control">Add new group</a>
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <td>Group name</td>
+              <td>Default cmd</td>
+              <td>Default privilige level</td>
+              <td>Valid until</td>
+              <td>Action</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for group in groups %}
+              <tr>
+                <td>{{ group.name }}</td>
+                <td>{{ group.cmd_default_policy }}</td>
+                <td>{{ group.default_privilege }}</td>
+                <td>{{ group.valid_until }}</td>
+                <td><a href="/tac_plus/delete_group/?group_id={{ group.id }}">Delete</a><br/><a href="/tac_plus/edit_group/?group_id={{ group.id }}">Edit</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="col-1"></div>
+    </div>
+</body>

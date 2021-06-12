@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <title>TACACS+ configuration and monitoring utility</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  </head>
+  <body>
+    <div class="header">
+      <div class="link"><a href="/tac_plus/configurations/">Configurations</a></div>
+      <div class="link"><a href="/tac_plus/users/">Users</a></div>
+      <div class="link"><a href="/tac_plus/groups/">Groups</a></div>
+      <div class="link"><a href="/tac_plus/commands/">Commands</a></div>
+      <div class="link"><a href="/tac_plus/system/">System</a></div>
+      <div class="link"><a href="/statistics/">Statistics</a></div>
+      <div class="link"><a href="/auth/logout/">Logout</a></div>
+    </div>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <a href="/tac_plus/add_configuration/" class="btn btn-primary form-control">Add new configuration</a>
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <td>Configuration name</td>
+              <td>Deployed</td>
+              <td>Action</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for configuration in configurations %}
+              <tr>
+                <td>{{ configuration.name }}</td>
+                <td>
+                  {% if configuration.deployed %}
+                    <span class="badge badge-success">Deployed</span>
+                  {% else %}
+                    <span class="badge badge-danger">Not deployed</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <a href="/tac_plus/delete_configuration/?config_id={{ configuration.id }}">Delete</a><br/>
+                  <a href="/tac_plus/edit_configuration/?config_id={{ configuration.id }}">Edit</a><br/>
+                  <a href="/tac_plus/verify_configuration/?config_id={{ configuration.id }}">Build and verify</a><br/>
+                  <a href="/tac_plus/deploy_configuration/?config_id={{ configuration.id }}">Deploy</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% if status %}
+          <div class="alert alert-info">{{ status }}</div>
+        {% endif %}
+      </div>
+      <div class="col-1"></div>
+    </div>
+</body>

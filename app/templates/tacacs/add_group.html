@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>TACACS+ configuration and monitoring utility</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  </head>
+  <body>
+    <div class="header">
+      <div class="link"><a href="/tac_plus/configurations/">Configurations</a></div>
+      <div class="link"><a href="/tac_plus/users/">Users</a></div>
+      <div class="link"><a href="/tac_plus/groups/">Groups</a></div>
+      <div class="link"><a href="/tac_plus/commands/">Commands</a></div>
+      <div class="link"><a href="/tac_plus/system/">System</a></div>
+      <div class="link"><a href="/statistics/">Statistics</a></div>
+      <div class="link"><a href="/auth/logout/">Logout</a></div>
+    </div>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <form method="POST" action="." accept-charset="UTF-8">
+          <div class="form-group">
+            <label for="group_name">Group name</label>
+            <input type="text" class="form-control" id="group_name" name="group_name" placeholder="Group name">
+          </div>
+          <div class="form-group">
+            <label for="valid_until">Valid until</label>
+            <input type="date" class="form-control" id="valid_until" name="valid_until" placeholder="Valid until">
+          </div>
+          <div class="form-group">
+            <label for="cmd_default_policy">Default command policy</label>
+            <select class="form-control" id="cmd_default_policy" name="cmd_default_policy">
+              <option value="permit">Permit</option>
+              <option value="deny">Deny</option>
+            <select>
+          </div>
+          <div class="form-group">
+            <label for="default_privilege">Privilege level</label>
+            <select class="form-control" id="default_privilege" name="default_privilege">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>              
+            <select>
+          </div>
+          <button type="submit" class="btn btn-primary form-control">Save</button>
+        </form>
+      </div>
+      <div class="col-1"></div>
+    </div>
+</body>

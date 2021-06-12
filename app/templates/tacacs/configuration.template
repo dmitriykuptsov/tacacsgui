@@ -1,0 +1,31 @@
+#!/usr/local/sbin/tac_plus
+id = spawnd {
+    listen = { port = ##listen_port }
+}
+
+id = tac_plus {
+
+    # Log files
+    authentication log = ##authentication_log
+    accounting log = ##accounting_log
+    authorization log = ##authorization_log
+
+    retire limit = 3000
+
+    # Define external authentication module
+    mavis module = external {
+        exec = ##mavis_module
+    }
+
+    # Authentication backend
+    login backend = ##login_backend
+
+    # Default host for all connections
+    host = ##default_host {
+        key = "##authentication_key"
+    }
+
+    ##groups
+
+    ##users
+}

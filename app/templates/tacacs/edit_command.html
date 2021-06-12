@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>TACACS+ configuration and monitoring utility</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  </head>
+  <body>
+    <div class="header">
+      <div class="link"><a href="/tac_plus/configurations/">Configurations</a></div>
+      <div class="link"><a href="/tac_plus/users/">Users</a></div>
+      <div class="link"><a href="/tac_plus/groups/">Groups</a></div>
+      <div class="link"><a href="/tac_plus/commands/">Commands</a></div>
+      <div class="link"><a href="/tac_plus/system/">System</a></div>
+      <div class="link"><a href="/statistics/">Statistics</a></div>
+      <div class="link"><a href="/auth/logout/">Logout</a></div>
+    </div>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <form method="POST" action="." accept-charset="UTF-8">
+          <div class="form-group">
+            <input type="hidden" class="form-control" id="command_id" name="command_id" value="{{command.id}}">
+          </div>
+          <div class="form-group">
+            <label for="command_name">Command name</label>
+            <input type="text" class="form-control" id="command_name" name="command_name" placeholder="Command" value="{{command.name}}">
+          </div>
+          <div class="form-group">
+            <label for="permit_regex">Permit regex</label>
+            <input type="text" class="form-control" id="permit_regex" name="permit_regex" placeholder="Permit regex" value="{{command.permit_regex}}">
+          </div>
+          <div class="form-group">
+            <label for="permit_message">Permit message</label>
+            <input type="text" class="form-control" id="permit_message" name="permit_message" placeholder="Permit message" value="{{command.permit_message}}">
+          </div>
+          <div class="form-group">
+            <label for="deny_regex">Deny regex</label>
+            <input type="text" class="form-control" id="deny_regex" name="deny_regex" placeholder="Deny regex" value="{{command.deny_regex}}">
+          </div>
+          <div class="form-group">
+            <label for="deny_message">Deny message</label>
+            <input type="text" class="form-control" id="deny_message" name="deny_message" placeholder="Deny message" value="{{command.deny_message}}">
+          </div>
+          <button type="submit" class="btn btn-primary form-control">Update</button>
+        </form>
+      </div>
+      <div class="col-1"></div>
+    </div>
+</body>

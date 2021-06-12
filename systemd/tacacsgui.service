@@ -1,0 +1,15 @@
+[Unit]
+Description=TACACS+ GUI deamon
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=www-data
+
+ExecStart=/usr/bin/python3 /opt/tacacsgui/run.py
+
+[Install]
+WantedBy=multi-user.target

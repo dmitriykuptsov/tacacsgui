@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <title>TACACS+ configuration and monitoring utility</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="link"><a href="/tac_plus/configurations/">Configurations</a></div>
+      <div class="link"><a href="/tac_plus/users/">Users</a></div>
+      <div class="link"><a href="/tac_plus/groups/">Groups</a></div>
+      <div class="link"><a href="/tac_plus/commands/">Commands</a></div>
+      <div class="link"><a href="/tac_plus/system/">System</a></div>
+      <div class="link"><a href="/statistics/">Statistics</a></div>
+      <div class="link"><a href="/auth/logout/">Logout</a></div>
+    </div>
+    <script>
+        chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
+		var authentication_config = {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: [
+						{{authentication_data["failure"]}},
+						{{authentication_data["success"]}}
+					],
+					backgroundColor: [
+						chartColors.red,
+						chartColors.blue
+					],
+					label: 'Authentication dataset'
+				}],
+				labels: [
+					'Auth failures',
+					'Auth successes'
+				]
+			},
+			options: {
+				responsive: true
+			}
+		};
+
+		var authorization_config = {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: [
+						{{authorization_data["failure"]}},
+						{{authorization_data["success"]}}
+					],
+					backgroundColor: [
+						chartColors.red,
+						chartColors.blue
+					],
+					label: 'Authorization dataset'
+				}],
+				labels: [
+					'Authorization failures',
+					'Authorization successes'
+				]
+			},
+			options: {
+				responsive: true
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('authentications').getContext('2d');
+			new Chart(ctx, authentication_config);
+			var ctx = document.getElementById('authorizations').getContext('2d');
+			new Chart(ctx, authorization_config);
+		};
+
+	</script>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+      	<h1 style="text-align: center;">Authentications</h1>
+        <div id="canvas-holder" style="width:100%">
+          <canvas id="authentications"></canvas>
+        </div>
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+      	<h1 style="text-align: center;">Authorizations</h1>
+        <div id="canvas-holder" style="width:100%">
+          <canvas id="authorizations"></canvas>
+        </div>
+      </div>
+      <div class="col-1"></div>
+    </div>
+</body>

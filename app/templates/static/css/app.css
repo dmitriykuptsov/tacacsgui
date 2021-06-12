@@ -1,0 +1,62 @@
+.header {
+	width: 100%;
+	height: 60px;
+	background-color: black;
+}
+
+.link {
+	display: inline-block;
+	height: 60px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: black;
+	font-weight: bold;
+	color: white;
+}
+
+.link:hover {
+	background-color: red;
+	font-weight: bold;
+	color: white;
+}
+
+.link > a {
+	text-decoration: none;
+	font-weight: bold;
+	color: white;
+	display: table-cell;
+	vertical-align: middle;
+	height: 60px;
+}
+
+.link > a:visited {
+	text-decoration: none;
+	font-weight: bold;
+	color: white;
+}
+
+.link > a:hover {
+	text-decoration: none;
+	font-weight: bold;
+	color: white;
+}
+
+a {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#commands_to_add {
+	display: absolute;
+	display: none;
+}
+
+#groups {
+	display: absolute;
+	display: none;
+}
+
+#users {
+	display: absolute;
+	display: none;
+}

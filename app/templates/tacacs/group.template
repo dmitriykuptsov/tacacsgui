@@ -1,0 +1,8 @@
+group = ##group_name {
+    valid until = ##valid_until
+    service = shell {
+        default cmd = ##default_cmd
+        set priv-lvl = ##privilege_level
+        ##cmds
+    }
+}

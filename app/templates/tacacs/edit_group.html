@@ -1,0 +1,141 @@
+<html>
+  <head>
+    <title>TACACS+ configuration and monitoring utility</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+  </head>
+  <body>
+    <script>
+      var commands_all = [];
+      function select_command(command_id) {
+        for (var i = 0; i < commands_all.length; i++) {
+          if (command_id == commands_all[i]["id"]) {
+            $("#cmd").val(commands_all[i]["name"]);
+            $("#command_id").val(command_id);
+            $("#commands_to_add").css("display", "none");
+            $.getJSON("/tac_plus/add_command_to_group/", {
+              command_id: $("#command_id").val(),
+              group_id: $("#group_id").val()
+            })
+            .done(function(data) {
+              location.reload(); 
+            });
+          }
+        }
+        return false;
+      }
+      function search_commands() {
+        if ($("#cmd").val() == "") {
+          $("#commands_to_add").css("display", "none");
+        }
+        $.getJSON("/tac_plus/commands_json/", {
+          cmd: $("#cmd").val()
+        })
+        .done(function(commands) {
+          commands_all = commands;
+          var html = "<table class='table table-dark'><thead><tr><td>Action</td><td>Command name</td><td>Permit regex</td><td>Deny regex</td></thead><tbody>"
+          $.each(commands, function(i, command) {
+            html += "<tr><td>";
+            html += "<a href='' onclick='select_command(" + command["id"] + "); event.preventDefault()'>Add</a>";
+            html += "</td><td>";
+            html += command["name"]
+            html += "</td><td>";
+            html += command["permit_regex"]
+            html += "</td><td>";
+            html += command["deny_regex"]
+            html += "</td></tr>";
+          });
+          html += "</tbody></table>";
+          $("#commands_to_add").html(html);
+          $("#commands_to_add").css("display", "block");
+        }); 
+      }
+    </script>
+    <div class="header">
+      <div class="link"><a href="/tac_plus/configurations/">Configurations</a></div>
+      <div class="link"><a href="/tac_plus/users/">Users</a></div>
+      <div class="link"><a href="/tac_plus/groups/">Groups</a></div>
+      <div class="link"><a href="/tac_plus/commands/">Commands</a></div>
+      <div class="link"><a href="/tac_plus/system/">System</a></div>
+      <div class="link"><a href="/statistics/">Statistics</a></div>
+      <div class="link"><a href="/auth/logout/">Logout</a></div>
+    </div>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <form method="POST" action="." accept-charset="UTF-8">
+          <div class="form-group">
+            <input type="hidden" class="form-control" id="group_id" name="group_id" value="{{group.id}}">
+          </div>
+          <div class="form-group">
+            <label for="group_name">Group name</label>
+            <input type="text" class="form-control" id="group_name" name="group_name" placeholder="Group" value="{{group.name}}">
+          </div>
+          <div class="form-group">
+            <label for="valid_until">Valid until</label>
+            <input type="date" class="form-control" id="valid_until" name="valid_until" placeholder="Valid until" value="{{group.valid_until}}">
+          </div>
+          <div class="form-group">
+            <label for="cmd_default_policy">Default command policy</label>
+            <select class="form-control" id="cmd_default_policy" name="cmd_default_policy">
+              <option value="permit" {% if group.cmd_default_policy == "permit" %} selected="selected" {% endif %}>Permit</option>
+              <option value="deny" {% if group.cmd_default_policy == "deny" %} selected="selected" {% endif %}>Deny</option>
+            <select>
+          </div>
+          <div class="form-group">
+            <label for="default_privilege">Privilege level</label>
+            <select class="form-control" id="default_privilege" name="default_privilege">
+              <option value="1" {% if group.default_privilege == 1 %} selected="selected" {% endif %}>1</option>
+              <option value="2" {% if group.default_privilege == 2 %} selected="selected" {% endif %}>2</option>
+              <option value="3" {% if group.default_privilege == 3 %} selected="selected" {% endif %}>3</option>
+              <option value="4" {% if group.default_privilege == 4 %} selected="selected" {% endif %}>4</option>
+              <option value="5" {% if group.default_privilege == 5 %} selected="selected" {% endif %}>5</option>
+              <option value="6" {% if group.default_privilege == 6 %} selected="selected" {% endif %}>6</option>
+              <option value="7" {% if group.default_privilege == 7 %} selected="selected" {% endif %}>7</option>
+              <option value="8" {% if group.default_privilege == 8 %} selected="selected" {% endif %}>8</option>
+              <option value="9" {% if group.default_privilege == 9 %} selected="selected" {% endif %}>9</option>
+              <option value="10" {% if group.default_privilege == 10 %} selected="selected" {% endif %}>10</option>
+              <option value="11" {% if group.default_privilege == 11 %} selected="selected" {% endif %}>11</option>
+              <option value="12" {% if group.default_privilege == 12 %} selected="selected" {% endif %}>12</option>
+              <option value="13" {% if group.default_privilege == 13 %} selected="selected" {% endif %}>13</option>
+              <option value="14" {% if group.default_privilege == 14 %} selected="selected" {% endif %}>14</option>
+              <option value="15" {% if group.default_privilege == 15 %} selected="selected" {% endif %}>15</option>
+            <select> 
+          </div>
+          <div class="form-group">
+            <label for="commands">Commands added to group</label>
+            <div id="commands" class="form-group">
+              <table class="table table-dark table-striped">
+                <thead>
+                  <tr>
+                    <td>Command name</td>
+                    <td>Action</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for command in commands %}
+                    <tr>
+                      <td>{{ command.name }}</td>
+                      <td><a href="/tac_plus/delete_command_from_group/?command_id={{ command.id }}&group_id={{group.id}}">Delete</a></td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cmd">Command to add</label>
+            <input type="text" class="form-control" id="cmd" name="cmd" autocomplete="off" placeholder="Type the command" onkeypress="search_commands()">
+            <div id="commands_to_add">
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="hidden" class="form-control" id="command_id" name="command_id">
+          </div>
+          <button type="submit" class="btn btn-primary form-control">Update</button>
+        </form>
+      </div>
+      <div class="col-1"></div>
+    </div>
+</body>

@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>TACACS+ configuration and monitoring utility</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="link"><a href="/tac_plus/configurations/">Configurations</a></div>
+      <div class="link"><a href="/tac_plus/users/">Users</a></div>
+      <div class="link"><a href="/tac_plus/groups/">Groups</a></div>
+      <div class="link"><a href="/tac_plus/commands/">Commands</a></div>
+      <div class="link"><a href="/tac_plus/system/">System</a></div>
+      <div class="link"><a href="/statistics/">Statistics</a></div>
+      <div class="link"><a href="/auth/logout/">Logout</a></div>
+    </div>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <form method="POST" action="." accept-charset="UTF-8">
+          <div class="form-group">
+            <input type="hidden" class="form-control" id="system_id" name="system_id" value="{{system.id}}">
+          </div>
+          <div class="form-group">
+            <label for="log_files_path">Logs path</label>
+            <input type="text" class="form-control" id="log_files_path" name="log_files_path" placeholder="Log file path" value="{{system.log_files_path}}">
+          </div>
+          <div class="form-group">
+            <label for="cfg_file_path">Configuration file path</label>
+            <input type="text" class="form-control" id="cfg_file_path" name="cfg_file_path" placeholder="Log configuration path" value="{{system.cfg_file_path}}">
+          </div>
+          <div class="form-group">
+            <label for="port_number">Port number</label>
+            <input type="text" class="form-control" id="port_number" name="port_number" placeholder="Port number" value="{{system.port_number}}">
+          </div>
+          <div class="form-group">
+            <label for="mavis_exec">Mavis password verification executable</label>
+            <input type="text" class="form-control" id="mavis_exec" name="mavis_exec" placeholder="Mavis password verification executable" value="{{system.mavis_exec}}">
+          </div>
+          <div class="form-group">
+            <label for="host_ip">Host IP address</label>
+            <input type="text" class="form-control" id="host_ip" name="host_ip" placeholder="Host IP address" value="{{system.host_ip}}">
+          </div>
+          <div class="form-group">
+            <label for="auth_key">Authentication key</label>
+            <input type="text" class="form-control" id="auth_key" name="auth_key" placeholder="Authentication key" value="{{system.auth_key}}">
+          </div>
+          <div class="form-group">
+            <label for="login_backend">Login backend</label>
+            <input type="text" class="form-control" id="login_backend" name="login_backend" placeholder="Mavis " value="{{system.login_backend}}">
+          </div>
+          <button type="submit" class="btn btn-primary form-control">Save</button>
+        </form>
+      </div>
+      <div class="col-1"></div>
+    </div>
+</body>
