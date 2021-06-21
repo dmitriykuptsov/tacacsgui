@@ -84,7 +84,7 @@
         })
         .done(function(users) {
           users_all = users;
-          var html = "<table class='table table-dark'><thead><tr><td>Action</td><td>Group name</td></thead><tbody>"
+          var html = "<table class='table table-dark'><thead><tr><td>Action</td><td>Username</td></thead><tbody>"
           $.each(users, function(i, user) {
             html += "<tr><td>";
             html += "<a href='' onclick='select_user(" + user["id"] + "); event.preventDefault()'>Add</a>";
@@ -109,18 +109,6 @@
             <label for="name">Configuration name</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Configuration name" value="{{configuration.name}}">
           </div>
-          <!-- div class="form-group">
-            <label for="authentication_log">Authentication log file</label>
-            <input type="text" class="form-control" id="authentication_log" name="authentication_log" placeholder="Authentication log" value="{{configuration.authentication_log}}">
-          </div>
-          <div class="form-group">
-            <label for="authorization_log">Authorization log file</label>
-            <input type="text" class="form-control" id="authorization_log" name="authorization_log" placeholder="Authorization log" value="{{configuration.authorization_log}}">
-          </div>
-          <div class="form-group">
-            <label for="accounting_log">Accounting log file</label>
-            <input type="text" class="form-control" id="accounting_log" name="accounting_log" placeholder="Accounting log" value="{{configuration.accounting_log}}">
-          </div -->
           <div class="form-group">
             <table class="table table-dark table-striped">
               <thead>

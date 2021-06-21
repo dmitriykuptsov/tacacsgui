@@ -340,7 +340,7 @@ def add_user():
 	else:
 		user = TacacsUser();
 		user.name = request.form.get("user_name", "")
-		user.password = encrypt_password(request.form.get("password", ""))
+		user.password = request.form.get("password", "")
 		db.session.add(user);
 		db.session.commit();
 		return redirect(url_for('tac_plus.users'))
@@ -350,6 +350,10 @@ def delete_user():
 	if not session.get("user_id", None):
 		return redirect(url_for('auth.signin'))
 	try:
+		user_configurations = ConfigurationUsers.query.filter_by(user_id=request.args.get("user_id", "")).all();
+		for user_configuration in user_configurations:
+			db.session.delete(user_configuration);
+			db.session.commit();
 		user_groups = TacacsUserGroups.query.filter_by(user_id=request.args.get("user_id", "")).all();
 		for user_group in user_groups:
 			db.session.delete(user_group)
@@ -539,7 +543,7 @@ def verify_configuration():
 		users.append(user);
 	
 	temporary_configuration_file = "/var/tmp/" + secrets.token_hex(nbytes=16) + ".cfg";
-	print("Doing %s " % (temporary_configuration_file, ));
+	#print("Doing %s " % (temporary_configuration_file, ));
 
 	build_configuration_file(system, 
 		configuration, 
@@ -601,9 +605,8 @@ def deploy_configuration_route():
 		for user_group in user_groups:
 			user["groups"].append(user_group.group);
 		users.append(user);
-	
+
 	temporary_configuration_file = "/var/tmp/" + secrets.token_hex(nbytes=16) + ".cfg";
-	print("Doing %s " % (temporary_configuration_file, ));
 
 	build_configuration_file(system, 
 		configuration, 
@@ -614,12 +617,13 @@ def deploy_configuration_route():
 		"app/templates/tacacs/group.template",
 		"app/templates/tacacs/command.template", 
 		temporary_configuration_file)
-	status = "Build status: Configuration file is OK!";
+	status = "Build status: Configuration file is OK! It will roughly take 1 minute for the configuration to take effect";
 	if not verify_the_configuration(temporary_configuration_file):
 		status = "STATUS: Configuration file contains errors"
-		return redirect(url_for("tac_plus.configurations", status = status));
-	status = "STATUS: Configuration was not deployed"
-	if deploy_configuration(temporary_configuration_file):
-		status = "STATUS: Configuration was deployed. Everthing is OK!"
-	os.remove(temporary_configuration_file);
+		return redirect(url_for("tac_plus.configurations", status = status)); 
+	os.rename(temporary_configuration_file, "/var/tmp/tac_plus.cfg"); 
+	#status = "STATUS: Configuration was not deployed"
+	#if deploy_configuration(temporary_configuration_file):
+	#	status = "STATUS: Configuration was deployed. Everthing is OK!"
+	#os.remove(temporary_configuration_file);
 	return redirect(url_for("tac_plus.configurations", status = status));

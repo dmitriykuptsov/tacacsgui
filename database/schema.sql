@@ -13,7 +13,7 @@ CREATE TABLE tacacsgui.auth_user(
 	salt VARCHAR(128) NOT NULL
 );
 
-CREATE TABLE tacacsgui.tac_plus_system(
+CREATE TABLE tacacsgui.tac_plus_system (
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	date_created DATETIME NOT NULL,
 	date_modified DATETIME NOT NULL,
@@ -117,6 +117,8 @@ CREATE TABLE tacacsgui.tac_plus_user_groups (
 );
 
 INSERT INTO tacacsgui.auth_user(date_created, date_modified, username, password, salt) VALUES(NOW(), NOW(), "admin", SHA2(CONCAT("Jaiddaks", "CiWiWoat"), 256), "CiWiWoat");
+
+INSERT INTO tacacsgui.tac_plus_system(date_created, date_modified) VALUES(NOW(), NOW());
 
 INSERT INTO tacacsgui.tac_plus_commands(date_created, \
 	date_modified, \

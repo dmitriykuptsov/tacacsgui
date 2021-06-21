@@ -27,44 +27,48 @@ def statistics():
 		system = System.query.filter().first();
 		if not system:
 			system = System();
-			db.session.add(system);
 			db.session.commit();
-		fd_authentication = open("/".join([system.log_files_path, "authentication.log"]))
 		auth_data = {
 			"success": 0,
 			"failure": 0
 		}
-		line = fd_authentication.readline();
-		while line:
-			try:
-				auth_log_entity = line.split("\t")[5]
-				if auth_log_entity.count("succeeded") > 0:
-					auth_data["success"] += 1;
-				if auth_log_entity.count("failed") > 0:
-					auth_data["failure"] += 1;
-			except Exception as e:
-				#print(e);
-				pass
-			line = fd_authentication.readline()
-		fd_authentication.close();
-		fd_authorization = open("/".join([system.log_files_path, "authorization.log"]))
+		try:
+			fd_authentication = open("/".join([system.log_files_path, "authentication.log"]))
+			line = fd_authentication.readline();
+			while line:
+				try:
+					auth_log_entity = line.split("\t")[5]
+					if auth_log_entity.count("succeeded") > 0:
+						auth_data["success"] += 1;
+					if auth_log_entity.count("failed") > 0:
+						auth_data["failure"] += 1;
+				except Exception as e:
+					#print(e);
+					pass
+				line = fd_authentication.readline()
+			fd_authentication.close();
+		except:
+			pass
 		authorization_data = {
 			"success": 0,
 			"failure": 0
 		}
-		line = fd_authorization.readline();
-		while line:
-			try:
-				auth_log_entity = line.split("\t")[5]
-
-				if auth_log_entity.count("permit") > 0:
-					authorization_data["success"] += 1;
-				if auth_log_entity.count("deny") > 0:
-					authorization_data["failure"] += 1;
-			except Exception as e:
-				pass
-			line = fd_authorization.readline()
-		fd_authorization.close();
+		try:
+			fd_authorization = open("/".join([system.log_files_path, "authorization.log"]))
+			line = fd_authorization.readline();
+			while line:
+				try:
+					auth_log_entity = line.split("\t")[5]
+					if auth_log_entity.count("permit") > 0:
+						authorization_data["success"] += 1;
+					if auth_log_entity.count("deny") > 0:
+						authorization_data["failure"] += 1;
+				except Exception as e:
+					pass
+				line = fd_authorization.readline()
+			fd_authorization.close();
+		except:
+			pass
 		return render_template("statistics/statistics.html", \
 			authentication_data = auth_data, \
 			authorization_data = authorization_data);

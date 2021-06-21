@@ -9,6 +9,7 @@ Restart=always
 RestartSec=1
 User=www-data
 
+WorkingDirectory=/opt/tacacsgui/
 ExecStart=/usr/bin/python3 /opt/tacacsgui/run.py
 
 [Install]

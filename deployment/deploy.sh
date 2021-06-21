@@ -1,9 +1,9 @@
 #!/bin/bash
-
 sudo apt-get install python3
 sudo apt-get install python3-pip
 sudo apt-get install mysql-server
 sudo apt-get install mysql-client
+
 echo "Would you like to configure MySQL? (Y/N)"
 read answer
 if [[ "$answer" == "Y" || "$answer" == "y" ]]
@@ -22,10 +22,18 @@ echo "Creating TACACSGUI folder"
 sudo mkdir -p /opt/tacacsgui
 sudo chown www-data:www-data -R /opt/tacacsgui
 
-mysql -uroot -pNigAfDov < ../database/schema.sql
+echo "Would you like to reset the database TACACSGUI? (Y/N)"
+read answer
+if [[ "$answer" == "Y" || "$answer" == "y" ]]
+then
+	mysql -uroot -pNigAfDov < ../database/schema.sql
+fi
 
-sudo rsync -rv ../app ../run.py ../config.py /opt/tacacsgui/
-
+sudo rsync -rv ../app ../run.py ../config.py ../deployment/synchronizer.sh /opt/tacacsgui/
+sudo chown www-data:www-data -R /opt/tacacsgui
 sudo rsync -rv ../systemd/tacacsgui.service /etc/systemd/system/
 sudo systemctl enable tacacsgui
 sudo systemctl start tacacsgui
+echo "* * * * *	root	/bin/bash /opt/synchronizer.sh" >> /etc/crontab
+#sudo crontab -e
+sudo service cron reload
