@@ -8,7 +8,9 @@ echo "Would you like to configure MySQL? (Y/N)"
 read answer
 if [[ "$answer" == "Y" || "$answer" == "y" ]]
 then
-	sudo mysql_secure_installation
+	echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'NigAfDov';" > reset.sql
+	sudo mysql -uroot < reset.sql
+	rm reset.sql
 fi
 
 sudo apt-get install python3-mysqldb
@@ -16,7 +18,7 @@ sudo apt-get install python3-mysqldb
 sudo pip3 install flask
 sudo pip3 install flask_wtf
 sudo pip3 install flask-sqlalchemy
-sudo pip3 install sqlalchemy
+#sudo pip3 install sqlalchemy
 
 echo "Creating TACACSGUI folder"
 sudo mkdir -p /opt/tacacsgui
