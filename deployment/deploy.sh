@@ -20,7 +20,6 @@ sudo pip3 install flask
 sudo pip3 install flask_wtf
 sudo pip3 install flask-sqlalchemy
 sudo pip3 install apscheduler
-#sudo pip3 install sqlalchemy
 
 echo "Creating TACACSGUI folder"
 sudo mkdir -p /opt/tacacsgui
