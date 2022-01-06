@@ -1,4 +1,4 @@
 user = ##username {
-    login = crypt ##encrypted_password
+    password = crypt ##encrypted_password
     ##groups
 }
