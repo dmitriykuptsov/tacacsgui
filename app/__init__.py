@@ -120,7 +120,7 @@ def auto_deploy():
 		return; 
 	os.rename(temporary_configuration_file, "/var/tmp/tac_plus.cfg");
 
-sched = BackgroundScheduler(daemon=True);
-sched.add_job(auto_deploy, "interval", minutes=1);
-sched.start();
+#sched = BackgroundScheduler(daemon=True);
+#sched.add_job(auto_deploy, "interval", minutes=1);
+#sched.start();
 
