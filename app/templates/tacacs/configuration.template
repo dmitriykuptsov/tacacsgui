@@ -6,7 +6,7 @@ id = spawnd {
 id = tac_plus {
 
     # Log files
-    authentication log = ##authentication_log
+    access log = ##authentication_log
     accounting log = ##accounting_log
     authorization log = ##authorization_log
 
