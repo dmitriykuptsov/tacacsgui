@@ -58,69 +58,70 @@ from app.utils.tacacs.utils import build_configuration_file, verify_the_configur
 
 # Automatically deploys the configuration every 1 minute
 def auto_deploy():
-	first_configuration_id = None;
-	configuration_id = None;
-	configurations = Configuration.query.all();
-	for configuration in configurations:
-		if not first_configuration_id:
-			first_configuration_id = configuration.id;
-		if configuration.deployed:
-			configuration_id = configuration.id;
-		configuration.deployed = False
-		db.session.commit();
-	if not configuration_id:
-		configuration_id = first_configuration_id;
-	system = System.query.first();
-	if not system:
-		print("Exiting no system configuration found...")
-		return;
-	configuration = None;
-	try:
-		configuration = Configuration.query.filter_by(id = configuration_id).one();
-		configuration.deployed = True;
-		db.session.commit();
-	except Exception as e:
-		return;
-	configuration_groups = ConfigurationGroups.query.filter_by(configuration_id = configuration_id).all();
-	groups = [];
-	for configuration_group in configuration_groups:
-		group = {
-			"group": configuration_group.group,
-			"commands": []
-		}
-		commands = GroupCommands.query.filter_by(group_id = configuration_group.group.id).all();
-		for command in commands:
-			group["commands"].append(command.command);
-		groups.append(group);
+	with app.app_context():
 
-	configuration_users = ConfigurationUsers.query.filter_by(configuration_id = configuration_id).all();
-	users = [];
-	for configuration_user in configuration_users:
-		user = {
-			"user": configuration_user.user,
-			"groups": []
-		}
-		user_groups = TacacsUserGroups.query.filter_by(user_id = configuration_user.user.id)
-		for user_group in user_groups:
-			user["groups"].append(user_group.group);
-		users.append(user);
+		first_configuration_id = None;
+		configuration_id = None;
+		configurations = Configuration.query.all();
+		for configuration in configurations:
+			if not first_configuration_id:
+				first_configuration_id = configuration.id;
+			if configuration.deployed:
+				configuration_id = configuration.id;
+			configuration.deployed = False
+			db.session.commit();
+		if not configuration_id:
+			configuration_id = first_configuration_id;
+		system = System.query.first();
+		if not system:
+			print("Exiting no system configuration found...")
+			return;
+		configuration = None;
+		try:
+			configuration = Configuration.query.filter_by(id = configuration_id).one();
+			configuration.deployed = True;
+			db.session.commit();
+		except Exception as e:
+			return;
+		configuration_groups = ConfigurationGroups.query.filter_by(configuration_id = configuration_id).all();
+		groups = [];
+		for configuration_group in configuration_groups:
+			group = {
+				"group": configuration_group.group,
+				"commands": []
+			}
+			commands = GroupCommands.query.filter_by(group_id = configuration_group.group.id).all();
+			for command in commands:
+				group["commands"].append(command.command);
+			groups.append(group);
 
-	temporary_configuration_file = "/var/tmp/" + secrets.token_hex(nbytes=16) + ".cfg";
+		configuration_users = ConfigurationUsers.query.filter_by(configuration_id = configuration_id).all();
+		users = [];
+		for configuration_user in configuration_users:
+			user = {
+				"user": configuration_user.user,
+				"groups": []
+			}
+			user_groups = TacacsUserGroups.query.filter_by(user_id = configuration_user.user.id)
+			for user_group in user_groups:
+				user["groups"].append(user_group.group);
+			users.append(user);
 
-	build_configuration_file(system, 
-		configuration, 
-		groups, 
-		users, 
-		"app/templates/tacacs/configuration.template", 
-		"app/templates/tacacs/user.template",
-		"app/templates/tacacs/group.template",
-		"app/templates/tacacs/command.template", 
-		temporary_configuration_file);
-	if not verify_the_configuration(temporary_configuration_file):
-		return; 
-	os.rename(temporary_configuration_file, "/var/tmp/tac_plus.cfg");
+		temporary_configuration_file = "/var/tmp/" + secrets.token_hex(nbytes=16) + ".cfg";
+
+		build_configuration_file(system, 
+			configuration, 
+			groups, 
+			users, 
+			"app/templates/tacacs/configuration.template", 
+			"app/templates/tacacs/user.template",
+			"app/templates/tacacs/group.template",
+			"app/templates/tacacs/command.template", 
+			temporary_configuration_file);
+		if not verify_the_configuration(temporary_configuration_file):
+			return; 
+		os.rename(temporary_configuration_file, "/var/tmp/tac_plus.cfg");
 
 sched = BackgroundScheduler(daemon=True);
 sched.add_job(auto_deploy, "interval", minutes=1);
 sched.start();
-
