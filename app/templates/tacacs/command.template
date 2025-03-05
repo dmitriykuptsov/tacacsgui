@@ -1,4 +1,4 @@
 cmd = ##command_name {
-    permit ##permit
-	deny ##deny    
+    ##permit
+    ##deny    
 }
