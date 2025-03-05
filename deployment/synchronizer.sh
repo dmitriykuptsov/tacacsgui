@@ -8,6 +8,7 @@ then
 	echo "Deploying the configuration file..."
 	cp -rv /var/tmp/tac_plus.cfg /usr/local/etc/tac_plus.cfg
 	/etc/init.d/tac_plus stop
+	killall tac_plus
 	/etc/init.d/tac_plus start
 else
 	echo "Configurations are the same. Skipping..."
