@@ -67,7 +67,7 @@ def build_configuration_file(
 
 		for command_name in commands_groupped.keys():
 			command_template_current = "%s" % command_template;
-			command_template_current = command_template_current.replace("##command_name", command.name)	
+			command_template_current = command_template_current.replace("##command_name", command_name)	
 			permit_regex = ""
 			deny_regex = ""
 			for command in commands_groupped[command_name]:
