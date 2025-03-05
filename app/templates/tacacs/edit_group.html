@@ -110,6 +110,7 @@
                 <thead>
                   <tr>
                     <td>Command name</td>
+                    <td>Command regex</td>
                     <td>Action</td>
                   </tr>
                 </thead>
@@ -117,6 +118,7 @@
                   {% for command in commands %}
                     <tr>
                       <td>{{ command.name }}</td>
+                      <td>{{ command.permit_regex }}</td>
                       <td><a href="/tac_plus/delete_command_from_group/?command_id={{ command.id }}&group_id={{group.id}}">Delete</a></td>
                     </tr>
                   {% endfor %}
