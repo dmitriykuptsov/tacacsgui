@@ -64,9 +64,10 @@ def build_configuration_file(
 			commands_groupped[command.name].append(command)
 
 
+
 		for command_name in commands_groupped.keys():
 			command_template_current = "%s" % command_template;
-			command_template_current = command_template_current.replace("##command_name", command.name)
+			command_template_current = command_template_current.replace("##command_name", command.name)	
 			permit_regex = ""
 			deny_regex = ""
 			for command in commands_groupped[command_name]:
@@ -77,7 +78,7 @@ def build_configuration_file(
 				else:
 					deny_regex += "deny .\n"
 			command_template_current = command_template_current.replace("##permit", permit_regex)
-			command_template_current += command_template_current.replace("##deny", deny_regex)
+			command_template_current = command_template_current.replace("##deny", deny_regex)
 			commands_compiled += command_template_current + "\n\n";
 		group_template_current = group_template_current.replace("##cmds", commands_compiled)
 		groups_compiled += group_template_current + "\n";
