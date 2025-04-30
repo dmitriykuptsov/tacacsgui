@@ -1,7 +1,5 @@
 DROP DATABASE IF EXISTS tacacsgui;
 
-#NigAfDov
-
 CREATE DATABASE tacacsgui;
 
 CREATE TABLE tacacsgui.auth_user(
@@ -41,7 +39,9 @@ CREATE TABLE tacacsgui.tac_plus_groups (
 	name VARCHAR(128) NOT NULL,
 	valid_until DATETIME NOT NULL,
 	cmd_default_policy VARCHAR(128) NOT NULL,
-	default_privilege INT NOT NULL
+	default_privilege INT NOT NULL,
+	is_enable_pass BOOL DEFAULT FALSE,
+	enable_pass VARCHAR(100)
 );
 
 CREATE TABLE tacacsgui.tac_plus_config_groups (

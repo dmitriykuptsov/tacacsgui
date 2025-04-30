@@ -73,6 +73,18 @@
             <input type="text" class="form-control" id="group_name" name="group_name" placeholder="Group" value="{{group.name}}">
           </div>
           <div class="form-group">
+            <label for="group_name">Is enable password set</label>
+            {% if group.is_enable_pass %}
+              <input type="checkbox" id="is_enable_pass" name="is_enable_pass" checked>
+            {% else %}
+              <input type="checkbox" id="is_enable_pass" name="is_enable_pass">
+            {% endif %}
+          </div>
+          <div class="form-group">
+            <label for="password">Enable password</label>
+            <input type="password" class="form-control" id="enable_pass" name="enable_pass" placeholder="Password" value="{{group.enable_pass}}">
+          </div>
+          <div class="form-group">
             <label for="valid_until">Valid until</label>
             <input type="date" class="form-control" id="valid_until" name="valid_until" placeholder="Valid until" value="{{group.valid_until}}">
           </div>

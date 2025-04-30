@@ -1,5 +1,6 @@
 group = ##group_name {
     valid until = ##valid_until
+    ##enable_password
     service = shell {
         default cmd = ##default_cmd
         set priv-lvl = ##privilege_level

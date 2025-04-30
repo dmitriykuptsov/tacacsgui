@@ -24,6 +24,7 @@
               <td>Group name</td>
               <td>Default cmd</td>
               <td>Default privilige level</td>
+              <td>Is enable password set</td>
               <td>Valid until</td>
               <td>Action</td>
             </tr>
@@ -34,6 +35,13 @@
                 <td>{{ group.name }}</td>
                 <td>{{ group.cmd_default_policy }}</td>
                 <td>{{ group.default_privilege }}</td>
+                <td>
+                  {% if group.is_enable_pass %}
+                    True
+                  {% else %}
+                    False
+                  {% endif %}
+                </td>
                 <td>{{ group.valid_until }}</td>
                 <td><a href="/tac_plus/delete_group/?group_id={{ group.id }}">Delete</a><br/><a href="/tac_plus/edit_group/?group_id={{ group.id }}">Edit</a></td>
               </tr>

@@ -50,7 +50,11 @@ def build_configuration_file(
 		group_template_current = "%s" % group_template;
 		
 		group_template_current = group_template_current.replace("##group_name", group["group"].name)
-
+		
+		if group["group"].is_enable_pass:
+			enable_pass_str = "enable = clear " + group["group"].enable_pass
+			group_template_current = group_template_current.replace("##enable_password", enable_pass_str)
+		
 		group_template_current = group_template_current.replace("##default_cmd", group["group"].cmd_default_policy)
 		group_template_current = group_template_current.replace("##valid_until", group["group"].valid_until.strftime("%Y-%m-%d"))
 		group_template_current = group_template_current.replace("##privilege_level", str(group["group"].default_privilege))

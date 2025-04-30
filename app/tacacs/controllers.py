@@ -179,6 +179,8 @@ def add_group():
 		group.valid_until = datetime.strptime(request.form.get("valid_until", ""), "%Y-%m-%d")
 		group.cmd_default_policy = request.form.get("cmd_default_policy", "")
 		group.default_privilege = request.form.get("default_privilege", "")
+		group.is_enable_pass = True if request.form.get("is_enable_pass", "") == "on" else False;
+		group.enable_pass = request.form.get("enable_pass", "");
 		db.session.add(group);
 		db.session.commit();
 		return redirect(url_for('tac_plus.groups'))
@@ -471,6 +473,8 @@ def edit_group():
 			group.valid_until = datetime.strptime(request.form.get("valid_until", ""), "%Y-%m-%d")
 			group.cmd_default_policy = request.form.get("cmd_default_policy", "");
 			group.default_privilege = request.form.get("default_privilege", "");
+			group.is_enable_pass = True if request.form.get("is_enable_pass", "") == "on" else False;
+			group.enable_pass = request.form.get("enable_pass", "");
 			db.session.commit();
 			return redirect(url_for('tac_plus.groups'))
 		except Exception as e:
