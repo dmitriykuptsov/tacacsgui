@@ -23,6 +23,21 @@ from app.tacacs.models import TacacsUser
 from app.utils.tacacs.utils import encrypt_password
 from app.utils.tacacs.utils import build_configuration_file, verify_the_configuration, deploy_configuration
 
+# System
+import sys
+# Logging
+import logging
+
+# Configure logging to console and file
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("tacacs.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+
 # Blueprint
 mod_tac_plus = Blueprint('tac_plus', __name__, url_prefix='/tac_plus')
 
@@ -67,7 +82,7 @@ def edit_configuration():
 				users.append(configuration_user.user);
 			return render_template("tacacs/edit_configuration.html", configuration=configuration, groups=groups, users=users);
 		except Exception as e:
-			print(e);
+			logging.debug(e);
 			return redirect(url_for("tac_plus.configurations"));
 	else:
 		configuration = Configuration.query.filter_by(id=request.form.get("configuration_id", None)).one();
@@ -143,7 +158,7 @@ def edit_command():
 			db.session.commit();
 			return redirect(url_for('tac_plus.commands'))
 		except Exception as e: 
-			print(e);
+			logging.debug(e);
 			return redirect(url_for('tac_plus.commands'))
 		return redirect(url_for('tac_plus.commands'))	
 	
@@ -251,7 +266,7 @@ def add_user_to_configuration():
 		if len(user_configuration) > 0:
 			found = True;
 	except Exception as e:
-		print(e)
+		logging.debug(e)
 		pass
 	if found:
 		return jsonify([]);
@@ -416,7 +431,7 @@ def edit_user():
 				groups.append(user_group.group);
 			return render_template("tacacs/edit_user.html", user=user, groups = groups)
 		except Exception as e:
-			print(e);
+			logging.debug(e);
 			return redirect(url_for('tac_plus.users'))
 	else:
 		try:
@@ -426,7 +441,7 @@ def edit_user():
 			db.session.commit();
 			return redirect(url_for('tac_plus.users'))
 		except Exception as e:
-			print(e);
+			logging.debug(e);
 			return redirect(url_for('tac_plus.users'))
 		return redirect(url_for('tac_plus.users'))
 
@@ -513,13 +528,13 @@ def verify_configuration():
 		return redirect(url_for("tac_plus.configurations"));
 	system = System.query.first();
 	if not system:
-		print("Exiting no system configuration found...")
+		logging.debug("Exiting no system configuration found...")
 		return redirect(url_for("tac_plus.configurations"));
 	configuration = None;
 	try:
 		configuration = Configuration.query.filter_by(id = configuration_id).one();
 	except Exception as e:
-		print(e)
+		logging.debug(e)
 		return redirect(url_for("tac_plus.configurations"));
 	configuration_groups = ConfigurationGroups.query.filter_by(configuration_id = configuration_id).all();
 
@@ -577,7 +592,7 @@ def deploy_configuration_route():
 		db.session.commit();
 	system = System.query.first();
 	if not system:
-		print("Exiting no system configuration found...")
+		logging.debug("Exiting no system configuration found...")
 		return redirect(url_for("tac_plus.configurations"));
 	configuration = None;
 	try:
