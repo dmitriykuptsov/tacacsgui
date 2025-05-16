@@ -645,7 +645,7 @@ def verify_configuration():
 			user["groups"].append(user_group.group);
 		acls = UserACL.query.filter_by(user_id = configuration_user.user.id).all();
 		for acl in acls:
-			group["acls"].append(acl);
+			user["acls"].append(acl);
 		users.append(user);
 
 	
