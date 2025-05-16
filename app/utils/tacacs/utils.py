@@ -66,9 +66,10 @@ def build_configuration_file(
 			if command.name not in commands_groupped.keys():
 				commands_groupped[command.name] = []
 			commands_groupped[command.name].append(command)
-		acl_command = ""
+		acl_command_permit = "acl = permit default_permit_" + group["group"].name
+		acl_command_deny = "acl = deny default_permit_" + group["group"].name
 		for acl in group["acls"]:
-			acl_command += "access = " + ("permit" if acl.access == "allow" else "deny") + " " + acl.ip + "/" + acl.mask + "\n"
+			acl_command += "client = " + ("permit" if acl.access == "allow" else "deny") + " " + acl.ip + "/" + acl.mask + "\n"
 
 		for command_name in commands_groupped.keys():
 			command_template_current = "%s" % command_template;
@@ -101,7 +102,7 @@ def build_configuration_file(
 		
 		acl_command = ""
 		for acl in user["acls"]:
-			acl_command += "access = " + ("permit" if acl.access == "allow" else "deny") + " " + acl.ip + "/" + acl.mask + "\n"
+			acl_command += "client = " + ("permit" if acl.access == "allow" else "deny") + " " + acl.ip + "/" + acl.mask + "\n"
 
 		user_template_current = user_template_current.replace("##groups", user_groups_compiled)
 		user_template_current = user_template_current.replace("##access", acl_command)
