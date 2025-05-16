@@ -66,7 +66,7 @@
           group_id: group_id
         })
         .done(function() {
-          localtion.reload()
+          location.reload()
         }); 
       }
 
@@ -76,7 +76,7 @@
           group_id: group_id
         })
         .done(function() {
-          localtion.reload()
+          location.reload()
         });
       }
     </script>
@@ -178,7 +178,7 @@
               <option value="allow">allow</option>
               <option value="deny">deny</option>
             <select>
-            <a href="#" onclick="add_acl('{{group.group_id}}')">Add ACL</a>
+            <a href="#" onclick="add_acl('{{group.id}}')">Add ACL</a>
           </div>
           <div class="form-group">
             <label for="commands">Commands added to group</label>
