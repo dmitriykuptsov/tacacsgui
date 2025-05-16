@@ -66,8 +66,9 @@ def build_configuration_file(
 			if command.name not in commands_groupped.keys():
 				commands_groupped[command.name] = []
 			commands_groupped[command.name].append(command)
-
-
+		acl_command = ""
+		for acl in group["acls"]:
+			acl_command += "access = " + ("permit" if acl.access == "allow" else "deny") + " " + acl.ip + "/" + acl.mask + "\n"
 
 		for command_name in commands_groupped.keys():
 			command_template_current = "%s" % command_template;
@@ -85,6 +86,7 @@ def build_configuration_file(
 			command_template_current = command_template_current.replace("##deny", deny_regex)
 			commands_compiled += command_template_current + "\n\n";
 		group_template_current = group_template_current.replace("##cmds", commands_compiled)
+		group_template_current = group_template_current.replace("##access", acl_command)		
 		groups_compiled += group_template_current + "\n";
 
 	users_compiled = "";
@@ -96,7 +98,13 @@ def build_configuration_file(
 		user_groups_compiled = "";
 		for group in user["groups"]:
 			user_groups_compiled += "member = " + group.name + "\n";
+		
+		acl_command = ""
+		for acl in user["acls"]:
+			acl_command += "access = " + ("permit" if acl.access == "allow" else "deny") + " " + acl.ip + "/" + acl.mask + "\n"
+
 		user_template_current = user_template_current.replace("##groups", user_groups_compiled)
+		user_template_current = user_template_current.replace("##access", acl_command)
 		users_compiled += user_template_current + "\n";
 
 	print(groups_compiled)
