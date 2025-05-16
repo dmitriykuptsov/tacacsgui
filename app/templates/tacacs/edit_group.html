@@ -52,7 +52,7 @@
         }); 
       }
 
-      function add_acl(group_id) {
+      function add_acl() {
         if ($("#acl_ip").val() == "") {
           return;
         }
@@ -63,7 +63,7 @@
           ip: $("#acl_ip").val(),
           mask: $("#acl_mask").val(),
           access: $("#acl_access").val(),
-          group_id: group_id
+          group_id: group.id
         })
         .done(function() {
           location.reload()
@@ -178,7 +178,7 @@
               <option value="allow">allow</option>
               <option value="deny">deny</option>
             <select>
-            <a href="#" onclick="add_acl('{{group.id}}')">Add ACL</a>
+            <a href="#" onclick="add_acl()">Add ACL</a>
           </div>
           <div class="form-group">
             <label for="commands">Commands added to group</label>
