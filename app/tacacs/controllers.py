@@ -509,7 +509,7 @@ def add_acl_to_user():
 	try:
 		acl = UserACL()
 		acl.access = request.args.get("access", "")
-		acl.group_id = request.args.get("group_id", "")
+		acl.user_id = request.args.get("user_id", "")
 		acl.ip = request.args.get("ip", "")
 		acl.mask = request.args.get("mask", "")
 		db.session.add(acl)
@@ -524,7 +524,7 @@ def delete_acl_from_user():
 	if not session.get("user_id", None):
 		return jsonify({}), 403;
 	try:
-		acl = UserACL.query.filter_by(group_id = request.args.get("group_id", ""), \
+		acl = UserACL.query.filter_by(user_id = request.args.get("user_id", ""), \
 								 id = request.args.get("acl_id", "")).first()
 		db.session.delete(acl)
 		db.session.commit();
