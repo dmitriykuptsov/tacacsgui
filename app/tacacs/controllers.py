@@ -465,7 +465,7 @@ def commands_json():
 	except:
 		return jsonify([])
 
-@mod_tac_plus.route("/add_acl_to_group/", methods=["GET", "POST"])
+@mod_tac_plus.route("/add_acl_to_group/", methods=["GET"])
 def add_acl_to_group():
 	if not session.get("user_id", None):
 		return jsonify({}), 403;
@@ -478,7 +478,8 @@ def add_acl_to_group():
 		db.session.add(acl)
 		db.session.commit();
 		return jsonify({});
-	except:
+	except Exception as e:
+		print(e)
 		return jsonify({})
 
 @mod_tac_plus.route("/delete_acl_from_group/", methods=["GET", "POST"])
@@ -513,7 +514,7 @@ def edit_group():
 			acls = []
 			for acl in group_acls:
 				acls.append(acl)
-				
+
 			group.valid_until = group.valid_until.strftime("%Y-%m-%d");
 			
 			return render_template("tacacs/edit_group.html", group=group, commands = commands, acls=acls)
