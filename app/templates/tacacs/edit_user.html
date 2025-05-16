@@ -49,7 +49,7 @@
         });
       }
 
-      function add_acl(group_id) {
+      function add_acl(user_id) {
         if ($("#acl_ip").val() == "") {
           return;
         }
@@ -63,17 +63,17 @@
           ip: $("#acl_ip").val(),
           mask: $("#acl_mask").val(),
           access: $("#acl_access").val(),
-          group_id: group_id
+          user_id: user_id
         })
         .done(function() {
           location.reload()
         }); 
       }
 
-      function delete_acl(acl_id, group_id) {
+      function delete_acl(acl_id, user_id) {
         $.getJSON("/tac_plus/delete_acl_from_user/", {
           acl_id: acl_id,
-          group_id: group_id
+          user_id: user_id
         })
         .done(function() {
           location.reload()
@@ -132,7 +132,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="acls">ACL for the group</label>
+            <label for="acls">ACL for the user</label>
             <div id="commands" class="form-group">
               <table class="table table-dark table-striped">
                 <thead>
@@ -150,7 +150,7 @@
                       <td>{{ acl.mask }}</td>
                       <td>{{ acl.access }}</td>
                       <!-- td><a href="/tac_plus/delete_acl_from_group/?acl_id={{ acl.id }}&group_id={{group.id}}" onclick="delete_acl(acl.id, group.id)">Delete</a></td -->
-                      <td><a href="#" onclick="delete_acl({{acl.id}}, {{group.id}})">Delete</a></td>
+                      <td><a href="#" onclick="delete_acl({{acl.id}}, {{user.id}})">Delete</a></td>
                     </tr>
                   {% endfor %}
                 </tbody>
@@ -201,7 +201,7 @@
               <option value="allow">allow</option>
               <option value="deny">deny</option>
             <select>
-            <a href="#" onclick="add_acl({{group.id}})">Add ACL</a>
+            <a href="#" onclick="add_acl({{user.id}})">Add ACL</a>
           </div>
           <div class="form-group">
             <input type="hidden" class="form-control" id="group_id" name="group_id">

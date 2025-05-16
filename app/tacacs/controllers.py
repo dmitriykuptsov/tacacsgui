@@ -428,10 +428,17 @@ def edit_user():
 			user_groups = TacacsUserGroups.query.filter_by(user_id = user.id) \
 				.join(Group) \
 				.all()
+			
+			user_acls = UserACL.query.filter_by(group_id = request.args.get("group_id", "")).all()	
+			
+			acls = []
+			for acl in user_acls:
+				acls.append(acl)
+
 			groups = []
 			for user_group in user_groups:
 				groups.append(user_group.group);
-			return render_template("tacacs/edit_user.html", user=user, groups = groups)
+			return render_template("tacacs/edit_user.html", user=user, groups = groups, acls = acls)
 		except Exception as e:
 			logging.debug(e);
 			return redirect(url_for('tac_plus.users'))
