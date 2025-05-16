@@ -53,6 +53,11 @@
         if ($("#acl_ip").val() == "") {
           return;
         }
+        const regex = /[0-9]{1,4}\.[0-9]{1,4}\.[0-9]{1,4}\.[0-9]{1,4}/;
+        if (!regex.test($("#acl_ip").val())) {
+          alert("Invalid IP address")
+          return;
+        }
         if ($("#acl_mask").val() == "") {
           return;
         }
@@ -210,6 +215,7 @@
                   <select>
                 </td>
                 <td>
+                  <br/>
                   <button class="btn btn-primary form-control" onclick="add_acl({{ user.id }})">Add ACL</button>
                 </td>
               </tr>
