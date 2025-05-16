@@ -48,6 +48,37 @@
           $("#groups").css("display", "block");
         });
       }
+
+      function add_acl(group_id) {
+        if ($("#acl_ip").val() == "") {
+          return;
+        }
+        if ($("#acl_mask").val() == "") {
+          return;
+        }
+        if ($("#acl_access").val() == "") {
+          return;
+        }
+        $.getJSON("/tac_plus/add_acl_to_user/", {
+          ip: $("#acl_ip").val(),
+          mask: $("#acl_mask").val(),
+          access: $("#acl_access").val(),
+          group_id: group_id
+        })
+        .done(function() {
+          location.reload()
+        }); 
+      }
+
+      function delete_acl(acl_id, group_id) {
+        $.getJSON("/tac_plus/delete_acl_from_user/", {
+          acl_id: acl_id,
+          group_id: group_id
+        })
+        .done(function() {
+          location.reload()
+        });
+      }
     </script>
     <div class="header">
       <div class="link"><a href="/tac_plus/configurations/">Configurations</a></div>
@@ -99,6 +130,78 @@
             <input type="text" class="form-control" id="group" name="group" autocomplete="off" placeholder="Type the group" onkeypress="search_groups()">
             <div id="groups">
             </div>
+          </div>
+          <div class="form-group">
+            <label for="acls">ACL for the group</label>
+            <div id="commands" class="form-group">
+              <table class="table table-dark table-striped">
+                <thead>
+                  <tr>
+                    <td>IP/mask</td>
+                    <td>ACL</td>
+                    <td>Permission</td>
+                    <td>Action</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for acl in acls %}
+                    <tr>
+                      <td>{{ acl.ip }}/{{ acl.mask }}</td>
+                      <td>{{ acl.mask }}</td>
+                      <td>{{ acl.access }}</td>
+                      <!-- td><a href="/tac_plus/delete_acl_from_group/?acl_id={{ acl.id }}&group_id={{group.id}}" onclick="delete_acl(acl.id, group.id)">Delete</a></td -->
+                      <td><a href="#" onclick="delete_acl({{acl.id}}, {{group.id}})">Delete</a></td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="acl_ip">ACL to add</label>
+            <input type="text" class="form-control" id="acl_ip" name="mask" autocomplete="off" placeholder="Type IP address">
+            <!-- input type="text" class="form-control" id="acl_mask" name="mask" autocomplete="off" placeholder="Type mask" -->
+            <select class="form-control" id="acl_mask" name="acl_mask">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
+              <option value="26">26</option>
+              <option value="27">27</option>
+              <option value="28">28</option>
+              <option value="29">29</option>
+              <option value="30">30</option>
+              <option value="31">31</option>
+              <option value="32">32</option>
+            </select>
+            <label for="acl_access">ACL access</label>
+            <select class="form-control" id="acl_access" name="acl_access">
+              <option value="allow">allow</option>
+              <option value="deny">deny</option>
+            <select>
+            <a href="#" onclick="add_acl({{group.id}})">Add ACL</a>
           </div>
           <div class="form-group">
             <input type="hidden" class="form-control" id="group_id" name="group_id">

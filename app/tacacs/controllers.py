@@ -471,7 +471,6 @@ def add_acl_to_group():
 		return jsonify({}), 403;
 	try:
 		acl = GroupACL()
-		print(request.args.get("access", ""))
 		acl.access = request.args.get("access", "")
 		acl.group_id = request.args.get("group_id", "")
 		acl.ip = request.args.get("ip", "")
@@ -489,6 +488,36 @@ def delete_acl_from_group():
 		return jsonify({}), 403;
 	try:
 		acl = GroupACL.query.filter_by(group_id = request.args.get("group_id", ""), \
+								 id = request.args.get("acl_id", "")).first()
+		db.session.delete(acl)
+		db.session.commit();
+		return jsonify({});
+	except:
+		return jsonify({})
+
+@mod_tac_plus.route("/add_acl_to_user/", methods=["GET"])
+def add_acl_to_user():
+	if not session.get("user_id", None):
+		return jsonify({}), 403;
+	try:
+		acl = UserACL()
+		acl.access = request.args.get("access", "")
+		acl.group_id = request.args.get("group_id", "")
+		acl.ip = request.args.get("ip", "")
+		acl.mask = request.args.get("mask", "")
+		db.session.add(acl)
+		db.session.commit();
+		return jsonify({});
+	except Exception as e:
+		print(e)
+		return jsonify({})
+
+@mod_tac_plus.route("/delete_acl_from_user/", methods=["GET", "POST"])
+def delete_acl_from_user():
+	if not session.get("user_id", None):
+		return jsonify({}), 403;
+	try:
+		acl = UserACL.query.filter_by(group_id = request.args.get("group_id", ""), \
 								 id = request.args.get("acl_id", "")).first()
 		db.session.delete(acl)
 		db.session.commit();
