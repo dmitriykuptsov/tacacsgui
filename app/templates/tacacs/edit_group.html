@@ -158,7 +158,6 @@
                 <thead>
                   <tr>
                     <td>IP/mask</td>
-                    <td>ACL</td>
                     <td>Permission</td>
                     <td>Action</td>
                   </tr>
@@ -167,7 +166,6 @@
                   {% for acl in acls %}
                     <tr>
                       <td>{{ acl.ip }}/{{ acl.mask }}</td>
-                      <td>{{ acl.mask }}</td>
                       <td>{{ acl.access }}</td>
                       <!-- td><a href="/tac_plus/delete_acl_from_group/?acl_id={{ acl.id }}&group_id={{group.id}}" onclick="delete_acl(acl.id, group.id)">Delete</a></td -->
                       <td><a href="#" onclick="delete_acl({{acl.id}}, {{group.id}})">Delete</a></td>

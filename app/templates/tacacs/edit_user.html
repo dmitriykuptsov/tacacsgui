@@ -143,7 +143,6 @@
                 <thead>
                   <tr>
                     <td>IP/mask</td>
-                    <td>ACL</td>
                     <td>Permission</td>
                     <td>Action</td>
                   </tr>
@@ -152,7 +151,6 @@
                   {% for acl in acls %}
                     <tr>
                       <td>{{ acl.ip }}/{{ acl.mask }}</td>
-                      <td>{{ acl.mask }}</td>
                       <td>{{ acl.access }}</td>
                       <td><a href="#" onclick="delete_acl({{acl.id}}, {{user.id}})">Delete</a></td>
                     </tr>
