@@ -66,8 +66,7 @@ def build_configuration_file(
 			if command.name not in commands_groupped.keys():
 				commands_groupped[command.name] = []
 			commands_groupped[command.name].append(command)
-		acl_command_permit = "acl = permit default_permit_" + group["group"].name
-		acl_command_deny = "acl = deny default_permit_" + group["group"].name
+		acl_command = ""
 		for acl in group["acls"]:
 			acl_command += "client = " + ("permit" if acl.access == "allow" else "deny") + " " + acl.ip + "/" + acl.mask + "\n"
 
