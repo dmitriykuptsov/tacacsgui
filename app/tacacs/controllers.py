@@ -504,16 +504,21 @@ def edit_group():
 			group_commands = GroupCommands.query.filter_by(group_id = group.id) \
 				.join(Command) \
 				.all()
-			group_acls = GroupACL.query.filter_by(group_id = group.id).all()	
+			group_acls = GroupACL.query.filter_by(group_id = request.args.get("group_id", "")).all()	
+			
 			commands = []
 			for group_command in group_commands:
 				commands.append(group_command.command);
+			
 			acls = []
 			for acl in group_acls:
-				acls.append(acls)
+				acls.append(acl)
+				
 			group.valid_until = group.valid_until.strftime("%Y-%m-%d");
+			
 			return render_template("tacacs/edit_group.html", group=group, commands = commands, acls=acls)
 		except Exception as e:
+			print(e)
 			return redirect(url_for('tac_plus.groups'))
 	else:
 		try:

@@ -118,6 +118,8 @@ CREATE TABLE tacacsgui.tac_plus_user_groups (
 
 CREATE TABLE tacacsgui.tac_plus_group_acls (
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	date_created DATETIME NOT NULL,
+	date_modified DATETIME NOT NULL,
 	group_id INT NOT NULL,
 	ip VARCHAR(15) NOT NULL,
 	mask VARCHAR(2) NOT NULL,
@@ -129,6 +131,8 @@ CREATE TABLE tacacsgui.tac_plus_group_acls (
 
 CREATE TABLE tacacsgui.tac_plus_user_acls (
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	date_created DATETIME NOT NULL,
+	date_modified DATETIME NOT NULL,
 	user_id INT NOT NULL,
 	ip VARCHAR(15) NOT NULL,
 	mask VARCHAR(2) NOT NULL,
