@@ -437,6 +437,7 @@ def edit_user():
 
 			groups = []
 			for user_group in user_groups:
+				
 				groups.append(user_group.group);
 			return render_template("tacacs/edit_user.html", user=user, groups = groups, acls = acls)
 		except Exception as e:
