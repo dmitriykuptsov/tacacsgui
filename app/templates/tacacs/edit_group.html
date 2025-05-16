@@ -59,6 +59,9 @@
         if ($("#acl_mask").val() == "") {
           return;
         }
+        if ($("#acl_access").val() == "") {
+          return;
+        }
         $.getJSON("/tac_plus/add_acl_to_group/", {
           ip: $("#acl_ip").val(),
           mask: $("#acl_mask").val(),

@@ -471,10 +471,11 @@ def add_acl_to_group():
 		return jsonify({}), 403;
 	try:
 		acl = GroupACL()
-		acl.access = request.args.get("acl_access", "")
+		print(request.args.get("access", ""))
+		acl.access = request.args.get("access", "")
 		acl.group_id = request.args.get("group_id", "")
-		acl.ip = request.args.get("acl_ip", "")
-		acl.mask = request.args.get("acl_mask", "")
+		acl.ip = request.args.get("ip", "")
+		acl.mask = request.args.get("mask", "")
 		db.session.add(acl)
 		db.session.commit();
 		return jsonify({});
