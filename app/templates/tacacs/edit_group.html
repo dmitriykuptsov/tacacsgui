@@ -51,6 +51,34 @@
           $("#commands_to_add").css("display", "block");
         }); 
       }
+
+      function add_acl(group_id) {
+        if ($("#acl_ip").val() == "") {
+          return;
+        }
+        if ($("#acl_mask").val() == "") {
+          return;
+        }
+        $.getJSON("/tac_plus/add_acl_to_group/", {
+          ip: $("#acl_ip").val(),
+          mask: $("#acl_mask").val(),
+          access: $("#acl_access").val(),
+          group_id: group_id
+        })
+        .done(function() {
+          localtion.reload()
+        }); 
+      }
+
+      function delete_acl(acl_id, group_id) {
+        $.getJSON("/tac_plus/delete_acl_from_group/", {
+          acl_id: acl_id,
+          group_id: group_id
+        })
+        .done(function() {
+          localtion.reload()
+        });
+      }
     </script>
     <div class="header">
       <div class="link"><a href="/tac_plus/configurations/">Configurations</a></div>
@@ -114,6 +142,43 @@
               <option value="14" {% if group.default_privilege == 14 %} selected="selected" {% endif %}>14</option>
               <option value="15" {% if group.default_privilege == 15 %} selected="selected" {% endif %}>15</option>
             <select> 
+          </div>
+          <div class="form-group">
+            <label for="acls">ACL for the group</label>
+            <div id="commands" class="form-group">
+              <table class="table table-dark table-striped">
+                <thead>
+                  <tr>
+                    <td>IP/mask</td>
+                    <td>ACL</td>
+                    <td>Permission</td>
+                    <td>Action</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for acl in acls %}
+                    <tr>
+                      <td>{{ acl.ip }}/{{ acl.mas }}</td>
+                      <td>{{ acl.mask }}</td>
+                      <td>{{ acl.access }}</td>
+                      <!-- td><a href="/tac_plus/delete_acl_from_group/?acl_id={{ acl.id }}&group_id={{group.id}}" onclick="delete_acl(acl.id, group.id)">Delete</a></td -->
+                      <td><a href="#" onclick="delete_acl(acl.id, group.id)">Delete</a></td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="acl_ip">ACL to add</label>
+            <input type="text" class="form-control" id="acl_ip" name="mask" autocomplete="off" placeholder="Type IP address">
+            <input type="text" class="form-control" id="acl_mask" name="mask" autocomplete="off" placeholder="Type mask">
+            <label for="acl_access">ACL access</label>
+            <select class="form-control" id="acl_access" name="acl_access">
+              <option value="allow">allow</option>
+              <option value="deny">deny</option>
+            <select>
+            <a href="/tac_plus/add_acl_to_group/" onclick="add_acl()">Add ACL</a>
           </div>
           <div class="form-group">
             <label for="commands">Commands added to group</label>

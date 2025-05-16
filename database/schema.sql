@@ -116,6 +116,34 @@ CREATE TABLE tacacsgui.tac_plus_user_groups (
     	ON DELETE CASCADE
 );
 
+CREATE TABLE tacacsgui.tac_plus_group_acls (
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	group_id INT NOT NULL,
+	ip VARCHAR(15) NOT NULL,
+	mask VARCHAR(2) NOT NULL,
+	access  VARCHAR(5) NOT NULL
+	FOREIGN KEY (acl_id)
+    	REFERENCES tacacsgui.tac_plus_acls(id)
+    	ON DELETE CASCADE,
+	FOREIGN KEY (group_id)
+    	REFERENCES tacacsgui.tac_plus_groups(id)
+    	ON DELETE CASCADE	
+);
+
+CREATE TABLE tacacsgui.tac_plus_user_acls (
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	user_id INT NOT NULL,
+	ip VARCHAR(15) NOT NULL,
+	mask VARCHAR(2) NOT NULL,
+	access  VARCHAR(5) NOT NULL
+	FOREIGN KEY (acl_id)
+    	REFERENCES tacacsgui.tac_plus_acls(id)
+    	ON DELETE CASCADE,
+	FOREIGN KEY (user_id)
+    	REFERENCES tacacsgui.tac_plus_users(id)
+    	ON DELETE CASCADE	
+);
+
 INSERT INTO tacacsgui.auth_user(date_created, date_modified, username, password, salt) VALUES(NOW(), NOW(), "admin", SHA2(CONCAT("Jaiddaks", "CiWiWoat"), 256), "CiWiWoat");
 
 INSERT INTO tacacsgui.tac_plus_system(date_created, date_modified) VALUES(NOW(), NOW());

@@ -18,6 +18,8 @@ from app.tacacs.models import GroupCommands
 from app.tacacs.models import TacacsUserGroups
 from app.tacacs.models import Command
 from app.tacacs.models import TacacsUser
+from app.tacacs.models import UserACL
+from app.tacacs.models import GroupACL
 
 # Utils
 from app.utils.tacacs.utils import encrypt_password
@@ -463,6 +465,34 @@ def commands_json():
 	except:
 		return jsonify([])
 
+@mod_tac_plus.route("/add_acl_to_group/", methods=["GET", "POST"])
+def add_acl_to_group():
+	if not session.get("user_id", None):
+		return jsonify({}), 403;
+	try:
+		acl = GroupACL()
+		acl.access = request.args.get("acl_access", "")
+		acl.group_id = request.args.get("group_id", "")
+		acl.ip = request.args.get("acl_ip", "")
+		acl.mask = request.args.get("acl_mask", "")
+		db.session.add(acl)
+		db.session.commit();
+		return jsonify({});
+	except:
+		return jsonify({})
+
+@mod_tac_plus.route("/delete_acl_from_group/", methods=["GET", "POST"])
+def delete_acl_from_group():
+	if not session.get("user_id", None):
+		return jsonify({}), 403;
+	try:
+		acl = GroupACL.query.filter_by(group_id = request.args.get("group_id", ""), \
+								 id = request.args.get("acl_id", "")).first()
+		db.session.delete(acl)
+		db.session.commit();
+		return jsonify({});
+	except:
+		return jsonify({})
 
 @mod_tac_plus.route("/edit_group/", methods=["GET", "POST"])
 def edit_group():
@@ -474,11 +504,15 @@ def edit_group():
 			group_commands = GroupCommands.query.filter_by(group_id = group.id) \
 				.join(Command) \
 				.all()
+			group_acls = GroupACL.query.filter_by(group_id = group.id).all()	
 			commands = []
 			for group_command in group_commands:
 				commands.append(group_command.command);
+			acls = []
+			for acl in group_acls:
+				acls.append(acls)
 			group.valid_until = group.valid_until.strftime("%Y-%m-%d");
-			return render_template("tacacs/edit_group.html", group=group, commands = commands)
+			return render_template("tacacs/edit_group.html", group=group, commands = commands, acls=acls)
 		except Exception as e:
 			return redirect(url_for('tac_plus.groups'))
 	else:

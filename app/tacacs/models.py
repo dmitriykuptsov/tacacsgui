@@ -104,6 +104,24 @@ class Command(Base):
 	permit_message     = db.Column(db.String(512),  nullable=False)
 	deny_message       = db.Column(db.String(512),  nullable=False)
 
+class UserACL(Base):
+	__tablename__ = "tac_plus_user_acls"
+
+	id                 = db.Column(db.Integer,      primary_key=True)
+	user_id            = db.Column(db.Integer,      db.ForeignKey('tac_plus_users.id'), nullable=False)
+	ip                 = db.Column(db.String(15),   nullable=False)
+	mask               = db.Column(db.String(2),    nullable=False)
+	access             = db.Column(db.String(5),    nullable=False)
+
+class GroupACL(Base):
+	__tablename__ = "tac_plus_group_acls"
+
+	id                 = db.Column(db.Integer,      primary_key=True)
+	group_id            = db.Column(db.Integer,     db.ForeignKey('tac_plus_groups.id'), nullable=False)
+	ip                 = db.Column(db.String(15),   nullable=False)
+	mask               = db.Column(db.String(2),    nullable=False)
+	access             = db.Column(db.String(5),    nullable=False)
+
 class TacacsUser(Base):
 
 	__tablename__ = "tac_plus_users"
