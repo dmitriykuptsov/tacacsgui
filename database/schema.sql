@@ -121,10 +121,7 @@ CREATE TABLE tacacsgui.tac_plus_group_acls (
 	group_id INT NOT NULL,
 	ip VARCHAR(15) NOT NULL,
 	mask VARCHAR(2) NOT NULL,
-	access  VARCHAR(5) NOT NULL
-	FOREIGN KEY (acl_id)
-    	REFERENCES tacacsgui.tac_plus_acls(id)
-    	ON DELETE CASCADE,
+	access  VARCHAR(5) NOT NULL,
 	FOREIGN KEY (group_id)
     	REFERENCES tacacsgui.tac_plus_groups(id)
     	ON DELETE CASCADE	
@@ -135,10 +132,7 @@ CREATE TABLE tacacsgui.tac_plus_user_acls (
 	user_id INT NOT NULL,
 	ip VARCHAR(15) NOT NULL,
 	mask VARCHAR(2) NOT NULL,
-	access  VARCHAR(5) NOT NULL
-	FOREIGN KEY (acl_id)
-    	REFERENCES tacacsgui.tac_plus_acls(id)
-    	ON DELETE CASCADE,
+	access  VARCHAR(5) NOT NULL,
 	FOREIGN KEY (user_id)
     	REFERENCES tacacsgui.tac_plus_users(id)
     	ON DELETE CASCADE	
