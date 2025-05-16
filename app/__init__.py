@@ -51,6 +51,8 @@ from app.tacacs.models import GroupCommands
 from app.tacacs.models import TacacsUserGroups
 from app.tacacs.models import Command
 from app.tacacs.models import TacacsUser
+from app.tacacs.models import UserACL
+from app.tacacs.models import GroupACL
 
 # Utils
 from app.utils.tacacs.utils import encrypt_password
@@ -88,11 +90,15 @@ def auto_deploy():
 		for configuration_group in configuration_groups:
 			group = {
 				"group": configuration_group.group,
-				"commands": []
+				"commands": [],
+				"acls": []
 			}
 			commands = GroupCommands.query.filter_by(group_id = configuration_group.group.id).all();
 			for command in commands:
 				group["commands"].append(command.command);
+			acls = GroupACL.query.filter_by(group_id = configuration_group.group.id).all();
+			for acl in acls:
+				group["acls"].append(acl);
 			groups.append(group);
 
 		configuration_users = ConfigurationUsers.query.filter_by(configuration_id = configuration_id).all();
@@ -100,11 +106,15 @@ def auto_deploy():
 		for configuration_user in configuration_users:
 			user = {
 				"user": configuration_user.user,
-				"groups": []
+				"groups": [],
+				"acls": []
 			}
 			user_groups = TacacsUserGroups.query.filter_by(user_id = configuration_user.user.id)
 			for user_group in user_groups:
 				user["groups"].append(user_group.group);
+			acls = UserACL.query.filter_by(user_id = configuration_user.user.id).all();
+			for acl in acls:
+				user["acls"].append(acl);
 			users.append(user);
 
 		temporary_configuration_file = "/var/tmp/" + secrets.token_hex(nbytes=16) + ".cfg";
