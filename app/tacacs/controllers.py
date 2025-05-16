@@ -429,7 +429,7 @@ def edit_user():
 				.join(Group) \
 				.all()
 			
-			user_acls = UserACL.query.filter_by(group_id = request.args.get("group_id", "")).all()	
+			user_acls = UserACL.query.filter_by(user_id = request.args.get("user_id", "")).all()	
 			
 			acls = []
 			for acl in user_acls:
