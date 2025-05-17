@@ -121,8 +121,12 @@
             <input type="password" class="form-control" id="enable_pass" name="enable_pass" placeholder="Password" value="{{group.enable_pass}}">
           </div>
           <div class="form-group">
-            <label for="password">Deny default service</label>
-            <input type="password" class="form-control" id="deny_default_service" name="deny_default_service" placeholder="Password" value="{{group.deny_default_service}}">
+            <label for="group_name">Deny default service</label>
+            {% if group.deny_default_service %}
+              <input type="checkbox" id="deny_default_service" name="deny_default_service" checked>
+            {% else %}
+              <input type="checkbox" id="deny_default_service" name="deny_default_service">
+            {% endif %}
           </div>
           <div class="form-group">
             <label for="valid_until">Valid until</label>
