@@ -83,7 +83,7 @@ class Group(Base):
 	default_privilege    = db.Column(db.Integer,      nullable=False)
 	is_enable_pass       = db.Column(db.Boolean,      nullable=False, default = False)
 	enable_pass          = db.Column(db.String(100),  nullable=True)
-	deny_default_service = db.Columnb(db.Boolean,     nullable=False, default=False)
+	deny_default_service = db.Column(db.Boolean,     nullable=False, default=False)
 
 class GroupCommands(Base):
 	__tablename__ = "tac_plus_group_commands"
