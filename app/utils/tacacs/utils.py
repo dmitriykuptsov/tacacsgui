@@ -54,6 +54,10 @@ def build_configuration_file(
 		if group["group"].is_enable_pass:
 			enable_pass_str = "enable = clear " + group["group"].enable_pass
 			group_template_current = group_template_current.replace("##enable_password", enable_pass_str)
+
+		if group["group"].deny_default_service:
+			deny_default_service = "default service = deny"
+			group_template_current = group_template_current.replace("##default_service", deny_default_service)
 		
 		group_template_current = group_template_current.replace("##default_cmd", group["group"].cmd_default_policy)
 		group_template_current = group_template_current.replace("##valid_until", group["group"].valid_until.strftime("%Y-%m-%d"))

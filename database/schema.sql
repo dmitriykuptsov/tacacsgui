@@ -41,7 +41,8 @@ CREATE TABLE tacacsgui.tac_plus_groups (
 	cmd_default_policy VARCHAR(128) NOT NULL,
 	default_privilege INT NOT NULL,
 	is_enable_pass BOOL DEFAULT FALSE,
-	enable_pass VARCHAR(100)
+	enable_pass VARCHAR(100),
+	deny_default_service BOOL NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE tacacsgui.tac_plus_config_groups (

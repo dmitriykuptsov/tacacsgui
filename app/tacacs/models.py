@@ -76,13 +76,14 @@ class Group(Base):
 
 	__tablename__ = "tac_plus_groups"
 
-	id                 = db.Column(db.Integer,      primary_key=True)
-	name               = db.Column(db.String(128),  nullable=False)
-	valid_until        = db.Column(db.DateTime,     nullable=False)
-	cmd_default_policy = db.Column(db.String(128),  nullable=False)
-	default_privilege  = db.Column(db.Integer,      nullable=False)
-	is_enable_pass     = db.Column(db.Boolean,      nullable=False, default = False)
-	enable_pass        = db.Column(db.String(100),  nullable=True)
+	id                   = db.Column(db.Integer,      primary_key=True)
+	name                 = db.Column(db.String(128),  nullable=False)
+	valid_until          = db.Column(db.DateTime,     nullable=False)
+	cmd_default_policy   = db.Column(db.String(128),  nullable=False)
+	default_privilege    = db.Column(db.Integer,      nullable=False)
+	is_enable_pass       = db.Column(db.Boolean,      nullable=False, default = False)
+	enable_pass          = db.Column(db.String(100),  nullable=True)
+	deny_default_service = db.Columnb(db.Boolean,     nullable=False, default=False)
 
 class GroupCommands(Base):
 	__tablename__ = "tac_plus_group_commands"

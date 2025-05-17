@@ -1,6 +1,7 @@
 group = ##group_name {
     valid until = ##valid_until
     ##enable_password
+    ##default_service
     ##access
     service = shell {
         default cmd = ##default_cmd
